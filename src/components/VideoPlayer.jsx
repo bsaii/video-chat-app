@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid black',
     margin: '10px',
   },
+  text: {
+    textAlign: 'center'
+  },
 }));
 //end of the styles
 
@@ -30,12 +33,12 @@ const VideoPlayer = () => {
     const {name, callAccepted, myVideo, userVideo, callEnded, stream, call} = useContext(SocketContext); //to use useContext
 
     const classes = useStyles();
-
+    
     return (
         <Grid container className={classes.gridContainer}>
             {/* our video */}
             {/* there is a bug, when you add stream the video doesn't show plus, the allow doesn't come */}
-            {
+        {
                 stream && (
             <Paper className={classes.paper}>
                 <Grid item xs={12} md={6}>
@@ -57,7 +60,16 @@ const VideoPlayer = () => {
             </Paper> 
                 )
             }
-             
+            {/* no device */}
+            {
+              !stream && (
+              <Paper className={classes.paper}>
+                <Grid item xs={12} md={12}>
+                    <Typography variant='h5' gutterBottom className={classes.text}>Cannot connect...you don't have any device to capture video or capture audio, try checking if your webcam and your microphone are working fine and try again </Typography>
+                </Grid>
+            </Paper>
+              )
+            }             
         </Grid>
     )
 }

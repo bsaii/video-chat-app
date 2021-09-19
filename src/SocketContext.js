@@ -1,13 +1,14 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+import adapter from 'webrtc-adapter';
 
 
 const SocketContext = createContext();
 
 //using the server
 // const socket = io('http://localhost:5000');
-const socket = io("https://saiicodes-video-chat-app.herokuapp.com/ ");
+const socket = io('https://saiicodes-video-chat-app.herokuapp.com/ ')
 
 const ContextProvider = ({ children }) => {
 
@@ -22,15 +23,16 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef();
     const connectionRef = useRef();
 
+
     useEffect(() => {
         //getting access to user video and audio
         navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((currentStream) => {
-            setStream(currentStream);
+            .getUserMedia({ video: true, audio: true })
+            .then((currentStream) => {
+                setStream(currentStream);
 
-            myVideo.current.srcObject = currentStream;
-          });
+                myVideo.current.srcObject = currentStream;
+            }).catch(err => console.log(err));
         
         socket.on('me', id => setMe(id));
 
